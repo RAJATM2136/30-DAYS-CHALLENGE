@@ -1,0 +1,41 @@
+// { Driver Code Starts
+#include<bits/stdc++.h> 
+using namespace std; 
+
+ // } Driver Code Ends
+class Solution{   
+public:
+    string printMinNumberForPattern(string s){
+        string l;
+        for(int i=1;i<=s.length()+1;i++)
+        l+=(i+'0');
+        
+        do{
+            int w=0;
+            for(int i=1;i<=s.length();i++){
+                if((l[i]>l[i-1]&&s[i-1]=='I')||(l[i]<l[i-1]&&s[i-1]=='D'))w++;
+                
+            }
+            if(w==s.length())return l;
+        }while(next_permutation(l.begin(),l.end()));
+        return "";
+        
+    }
+};
+
+
+// { Driver Code Starts.
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string S;
+        cin >> S;
+        Solution ob;
+        cout << ob.printMinNumberForPattern(S) << endl;
+    }
+    return 0; 
+} 
+  // } Driver Code Ends
