@@ -1,0 +1,49 @@
+// { Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    int isValid(vector<vector<int>> m){
+        unordered_map<string,int> ma;
+        for(int i=0;i<m.size();i++){
+            for(int j=0;j<m[0].size();j++){
+                if(m[i][j]==0)continue;
+                if(ma.find(to_string(m[i][j])+"found in row"+to_string(i))!=ma.end()||
+                ma.find(to_string(m[i][j])+"found in column"+to_string(j))!=ma.end()||
+                ma.find(to_string(m[i][j])+"found in box"+to_string(i/3)+to_string(j/3))!=ma.end()){//cout<<"vf"<<" ";
+                return false;}
+                else{
+                   //cout<<to_string(m[i][j])+"found in row"+to_string(i); 
+                   ma[to_string(m[i][j])+"found in row"+to_string(i)]++;
+                   ma[to_string(m[i][j])+"found in column"+to_string(j)]++;
+                   ma[to_string(m[i][j])+"found in box"+to_string(i/3)+to_string(j/3)]++;
+                  //for(auto x:ma)cout<<x.first<<"rg";
+                }
+                
+            }
+        }
+        return true;
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        vector<vector<int>> mat(9, vector<int>(9, 0));
+        for(int i = 0;i < 81;i++)
+            cin>>mat[i/9][i%9];
+        
+        Solution ob;
+        cout<<ob.isValid(mat)<<"\n";
+    }
+    return 0;
+}  // } Driver Code Ends
