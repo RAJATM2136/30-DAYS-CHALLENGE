@@ -1,0 +1,193 @@
+// { Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+
+
+Node *buildTree(string str) {
+    // Corner Case
+    if (str.length() == 0 || str[0] == 'N')
+        return NULL;
+
+    // Creating vector of strings from input
+    // string after spliting by space
+    vector<string> ip;
+
+    istringstream iss(str);
+    for (string str; iss >> str;)
+        ip.push_back(str);
+
+    // Create the root of the tree
+    Node *root = new Node(stoi(ip[0]));
+
+    // Push the root to the queue
+    queue<Node *> queue;
+    queue.push(root);
+
+    // Starting from the second element
+    int i = 1;
+    while (!queue.empty() && i < ip.size()) {
+
+        // Get and remove the front of the queue
+        Node *currNode = queue.front();
+        queue.pop();
+
+        // Get the current Node's value from the string
+        string currVal = ip[i];
+
+        // If the left child is not null
+        if (currVal != "N") {
+
+            // Create the left child for the current Node
+            currNode->left = new Node(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+
+        // For the right child
+        i++;
+        if (i >= ip.size())
+            break;
+        currVal = ip[i];
+
+        // If the right child is not null
+        if (currVal != "N") {
+
+            // Create the right child for the current Node
+            currNode->right = new Node(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+
+ // } Driver Code Ends
+//User function Template for C++
+
+class Solution {
+  public:
+  void childtoparent(Node* root,map<Node*,Node*>& m,int t){
+      queue<Node*> q;
+      q.push(root);
+      
+      while(!q.empty()){
+      Node* temp=q.front();
+      q.pop();
+      if(temp->left){
+      m[temp->left]=temp;q.push(temp->left);}
+      if(temp->right){
+      m[temp->right]=temp;q.push(temp->right);}
+      }
+      return ;
+  }
+  
+  
+  
+  
+  Node* search(Node* root,int t){
+      if(root==NULL)return root;
+      if(root->data==t)return root;
+      Node* x=search(root->left,t);
+      Node* y=search(root->right,t);
+      if(x!=NULL)return x;
+      if(y!=NULL)return y;
+      return NULL;
+  }
+  
+  
+  
+    int minTime(Node* root, int t) 
+    {
+        
+        map<Node*,Node*> m;
+        childtoparent(root,m,t);
+           
+          
+      
+        
+        
+        root=search(root,t);
+        
+      map<Node*,int> vis;
+        queue<Node*> q;
+        q.push(root);
+        
+        vis[root]=1;
+        int ans=0;
+        while(!q.empty()){
+            int k=q.size();
+            int f=0;
+            for(int i=0;i<k;i++){
+            Node* temp=q.front();
+            //vis[temp]++;
+            q.pop();
+            if(temp->left&&!vis[temp->left]){
+            f++;
+            q.push(temp->left);
+                vis[temp->left]=1;
+            }
+            if(temp->right&&!vis[temp->right]){
+            f++;
+            q.push(temp->right);
+                vis[temp->right]=1;
+            }
+            if(m[temp]&&!vis[m[temp]])
+            {
+                f++;
+                q.push(m[temp]);
+            
+                vis[m[temp]]=1;
+            }
+        }
+            if(f)ans++;
+        }
+        
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+int main() 
+{
+    int tc;
+    scanf("%d ", &tc);
+    while (tc--) 
+    {    
+        string treeString;
+        getline(cin, treeString);
+        // cout<<treeString<<"\n";
+        int target;
+        cin>>target;
+        // cout<<target<<"\n";
+
+        Node *root = buildTree(treeString);
+        Solution obj;
+        cout<<obj.minTime(root, target)<<"\n"; 
+
+        cin.ignore();
+
+    }
+
+
+    return 0;
+}
+  // } Driver Code Ends
