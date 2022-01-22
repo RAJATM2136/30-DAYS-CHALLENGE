@@ -1,0 +1,50 @@
+// { Driver Code Starts
+// Initial Template for C++
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+//User function Template for C++
+class Solution{
+    public:
+    long long int dp[1002][1002];
+     long long int M=1000000007;
+   long long int numOfWayshelper(int i,int cs,int limit,int x,int n){
+       if(i>limit+1)return 0;
+       else if(cs>n)return 0;
+       else if(dp[i][cs]!=-1)return dp[i][cs]%M;
+       else if(cs==n)return 1;
+       long long int a=numOfWayshelper(i+1,cs+pow(i,x),limit,x,n);
+       long long int b=numOfWayshelper(i+1,cs,limit,x,n);
+       dp[i][cs]=(a+b)%M;
+       return dp[i][cs]%M;
+       
+       
+   }
+    
+    
+    long long int numOfWays(int n, int x)
+    {
+       long long int limit=pow(n,1.0/x);
+       memset(dp,-1,sizeof(dp));
+       long long int i=1;
+       long long int cs=0;
+        return numOfWayshelper(i,cs,limit,x,n); 
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int  n, x;
+        cin >> n >> x;
+        Solution ob;
+        cout<<ob.numOfWays(n, x)<<endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends
