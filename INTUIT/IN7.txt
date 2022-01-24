@@ -1,0 +1,30 @@
+class Solution {
+public:
+    
+    bool binary(vector<int>& a,int wt,int D ){
+        int co=1;int s=0;
+        for(int i=0;i<a.size();i++){
+            if((s+a[i])<=wt)s+=a[i];
+           else if(a[i]>wt)return false;
+            else{
+                co++;s=a[i];
+            }
+        }
+       
+        return co<=D;
+    }
+    
+    
+    int shipWithinDays(vector<int>& a, int D) {
+        
+        int l=1;int h=1e9;
+        while(l<h){
+           int mid=(h+l)/2;
+         if(binary(a,mid,D))
+             h=mid;
+            else
+                l=mid+1;
+        }
+        return l;
+    }
+};
