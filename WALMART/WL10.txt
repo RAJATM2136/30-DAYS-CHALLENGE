@@ -1,0 +1,42 @@
+class Solution {
+public:
+    //uniform means use sqrt of random function
+    
+   double x, y, r;
+
+Solution(double radius, double x_center, double y_center) {
+    
+    r = radius;
+    x = x_center;
+    y = y_center;
+    
+}
+
+double gen( )     //to generate random no. between 0 and 1
+{
+    double a =(double) rand( )/ RAND_MAX;
+    
+    return a;
+}
+
+vector<double> randPoint() {
+    
+    double length = sqrt(gen( )) * r; //length=rcos(theta)=rsin(theta)
+    
+    double theta = gen() * 2* M_PI;
+    cout<<theta;
+    double xaxis = x + length*cos(theta);
+    
+    double yaxis = y + length*sin(theta);
+    
+    
+    return vector<double>{xaxis,yaxis};
+}
+
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(radius, x_center, y_center);
+ * vector<double> param_1 = obj->randPoint();
+ */
